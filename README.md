@@ -9,6 +9,8 @@
 
 启动入口：start.py
 
+cookie需包含：userId=123456;uuid=11111111111;token=aaaaaaaaaaaaaaaaxxxxxxxxxxx;
+
 模块安装：
 
 pip install requests
