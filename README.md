@@ -5,7 +5,17 @@
 
 软件背景：方便多账号用户统一兑换管理
 
-软件技术栈：python，pyqt
+软件技术栈：python，pyqt5
+
+模块安装：
+
+pip install requests
+
+pip install PyQt5
+
+pip install PyQt5-tools
+
+pip install pycryptodome
 
 警告：软件免费开源，仅供学习交流使用，请勿用于非法用途！
 
