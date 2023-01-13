@@ -17,6 +17,8 @@ pip install PyQt5-tools
 
 pip install pycryptodome
 
+pip install pyperclip
+
 警告：软件免费开源，仅供学习交流使用，请勿用于非法用途！
 
 加作者微信：g4994g 拉你加入忒星科技活动开源交流群
