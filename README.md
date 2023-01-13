@@ -7,6 +7,8 @@
 
 软件技术栈：python，pyqt5
 
+启动入口：start.py
+
 模块安装：
 
 pip install requests
