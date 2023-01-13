@@ -11,6 +11,8 @@
 
 pip install requests
 
+pip install qt-material
+
 pip install PyQt5
 
 pip install PyQt5-tools
