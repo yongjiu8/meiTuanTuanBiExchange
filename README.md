@@ -11,6 +11,8 @@
 
 加作者微信：g4994g 拉你加入忒星科技活动开源交流群
 
+![mmqrcode1673591083873](https://user-images.githubusercontent.com/49848349/212251962-c33c2a09-cc30-47ac-a684-85b11d49017e.png)
+
 软件界面截图：
 
 ![image](https://user-images.githubusercontent.com/49848349/212250283-2f5c133e-67a7-41f2-a9cd-a54292d9f6a7.png)
