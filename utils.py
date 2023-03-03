@@ -159,7 +159,7 @@ def getAccessToken(ck):
     js = json.loads(res.text)
     # printf(f'获取token[{userId}]{js}')
     if 'token不合法' in res.text or 'accessToken' not in res.text:
-        return ""
+        return "", ""
     return js['data']['accessToken'], js['data']['mgcPlayerInfo']['gameNickName']
 
 
@@ -167,6 +167,8 @@ def getTuanBiBlance(signal, cks):
     dats = []
     for ck in cks:
         token, name = getAccessToken(ck)
+        if token == "":
+            continue
         res = requests.get(
             f'https://game.meituan.com/mgc/gamecenter/skuExchange/resource/counts?sceneId=2&gameId=10139',
             headers=getHead(ck),
