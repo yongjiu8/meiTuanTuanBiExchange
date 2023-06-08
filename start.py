@@ -23,6 +23,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
     initCkSignal = pyqtSignal(list)
     initAddressSignal = pyqtSignal(list)
     initProductsSignal = pyqtSignal(list)
+    initImgSignal = pyqtSignal(dict)
 
     def __init__(self, parent=None):
         super(TuanBi, self).__init__(parent)
@@ -51,6 +52,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
         self.initCkSignal.connect(self.initCkBox)
         self.initAddressSignal.connect(self.initAddressBox)
         self.initProductsSignal.connect(self.initProductsBox)
+        self.initImgSignal.connect(self.updateProductBoxImg)
 
     def showTips(self, text):
         QMessageBox.information(self, '提示', text, QMessageBox.Close)
@@ -75,6 +77,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             printf(self.cks)
             self.showLoading()
             threading.Thread(target=getTuanBiBlance, args=(self.initCkSignal, self.cks)).start()
+            threading.Thread(target=getProducts, args=(self.initProductsSignal, self.cks[0])).start()
         else:
             self.showErrorTips('文件选择有误')
 
@@ -149,7 +152,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.addressModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
             self.addressListBox.setCurrentIndex(seIndex)
 
-        threading.Thread(target=getProducts, args=(self.initProductsSignal, self.globelck)).start()
+        self.closeLoading()
 
     def addressListClicked(self):
         index = self.addressListBox.currentIndex()
@@ -277,8 +280,16 @@ class TuanBi(QMainWindow, Ui_MainWindow):
                 item.setCheckState(Qt.Unchecked)
                 self.productsBoxModel.appendRow(item)
                 index = self.productsBoxModel.indexFromItem(item)
-                widget = ProductCustomWidget(name, balance, imgurl)
+                widget = ProductCustomWidget(name, balance, b'')
                 item.setSizeHint(widget.sizeHint())
+                #异步加载图片
+                data = {
+                    "index": index,
+                    "name": name,
+                    "balance": balance,
+                    "imgUrl": imgurl
+                }
+                threading.Thread(target=getImg, args=(self.initImgSignal, data)).start()
 
                 self.productsListBox.setIndexWidget(index, widget)
 
@@ -288,8 +299,13 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.productsBoxModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
             self.productsListBox.setCurrentIndex(seIndex)
 
-        self.closeLoading()
 
+    def updateProductBoxImg(self, datas):
+        index = datas['index']
+        name = datas['name']
+        balance = datas['balance']
+        img = datas['img']
+        self.productsListBox.setIndexWidget(index, ProductCustomWidget(name, balance, img))
     def productsListClicked(self):
         index = self.productsListBox.currentIndex()
         for i in range(self.productsBoxModel.rowCount()):

@@ -116,13 +116,14 @@ def runUa():
 
 
 def execCkDatas(path):
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         cks = f.read()
     ckDatas = cks.split('\n')
+    oks = []
     for ck in ckDatas:
-        if ck == '':
-            ckDatas.remove(ck)
-    return ckDatas
+        if ck != '' and 'userId' in ck:
+            oks.append(ck)
+    return oks
 
 
 def getCkExec(ck):
@@ -173,6 +174,8 @@ def getTuanBiBlance(signal, cks):
             f'https://game.meituan.com/mgc/gamecenter/skuExchange/resource/counts?sceneId=2&gameId=10139',
             headers=getHead(ck),
             timeout=5)
+        if '失效' in res.text:
+            continue
         js = json.loads(res.text)
         dats.append({
             "name": name,
@@ -313,6 +316,10 @@ def getProducts(signal, ck):
     else:
         return signal.emit([])
 
+def getImg(signal, datas):
+    res = requests.get(url=datas['imgUrl'])
+    datas['img'] = res.content
+    return signal.emit(datas)
 
 def submitOrderV2(ck, addressData, productData):
     userId, uuid, mini_program_token = getCkExec(ck)

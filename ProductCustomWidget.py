@@ -6,12 +6,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QLineEdit, QPushButton, QLabel
 
 class ProductCustomWidget(QWidget):
 
-    def __init__(self, name, balance, imgurl, *args, **kwargs):
+    def __init__(self, name, balance, img, *args, **kwargs):
         super(ProductCustomWidget, self).__init__(*args, **kwargs)
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
-        res = requests.get(imgurl)
-        img = QImage.fromData(res.content)
+        img = QImage.fromData(img)
 
         l1 = QLabel(self)
         l1.resize(50, 80)

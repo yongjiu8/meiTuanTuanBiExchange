@@ -145,7 +145,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "美团小团币兑换-by忒星"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "美团小团币兑换-by忒星科技 v1.1.1"))
         self.importckbtn.setText(_translate("MainWindow", "导入ck（一行一个）"))
         self.label.setText(_translate("MainWindow", "地址关键词："))
         self.searchAddressEdit.setPlaceholderText(_translate("MainWindow", "输入省市县区搜索地址"))
