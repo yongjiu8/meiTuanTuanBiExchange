@@ -1,6 +1,7 @@
 import base64
 import datetime
 import json
+import os
 import random
 import sys
 import time
@@ -28,7 +29,6 @@ def generate_random_str(randomlength=16):
 
 def getTimestamp():
     return str(int(round(time.time() * 1000)))
-
 
 def aesEn(content, key, iv):
     key = key[:16].encode('utf-8')

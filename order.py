@@ -10,13 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from utils import *
 
 class Ui_orderMain(object):
     def setupUi(self, orderMain):
         orderMain.setObjectName("orderMain")
         orderMain.resize(800, 600)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         orderMain.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(orderMain)
         self.centralwidget.setObjectName("centralwidget")

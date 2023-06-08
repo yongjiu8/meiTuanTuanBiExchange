@@ -10,13 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from utils import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1126, 853)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setToolTip("")
         MainWindow.setStatusTip("")
