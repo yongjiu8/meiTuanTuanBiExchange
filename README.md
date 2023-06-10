@@ -9,10 +9,26 @@
 
 启动入口：start.py
 
-cookie需包含：userId=123456;uuid=11111111111;token=aaaaaaaaaaaaaaaaxxxxxxxxxxx;
+# 更新日志
+```text
+V1.1.2
+1.修改目录结构
+2.优化商品图片异步加载
+3.优化cookie导入报错
+4.优化部分情况下商品列表无法加载
+5.优化导入时卡顿
+6.新增账号统计
+7.新增团币合计
+8.新增团币排序
+```
+
+# cookie需包含：
+```text
+userId=123456;uuid=11111111111;token=aaaaaaaaaaaaaaaaxxxxxxxxxxx;
+```
 
 模块安装：
-
+```text
 pip install requests
 
 pip install qt-material
@@ -24,10 +40,11 @@ pip install PyQt5-tools
 pip install pycryptodome
 
 pip install pyperclip
+```
 
-警告：软件免费开源，仅供学习交流使用，请勿用于非法用途！
+#  警告：软件免费开源，仅供学习交流使用，请勿用于非法用途！
 
-加作者微信：g4994g 拉你加入忒星科技活动开源交流群
+# 加作者微信：g4994g 拉你加入忒星科技活动开源交流群
 
 ![mmqrcode1673591083873](https://user-images.githubusercontent.com/49848349/212251962-c33c2a09-cc30-47ac-a684-85b11d49017e.png)
 
