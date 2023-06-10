@@ -145,7 +145,20 @@ def getHead(ck):
     }
     return head
 
-
+def checkCkStatus(ck):
+    userId, uuid, mini_program_token = getCkExec(ck)
+    head = {
+        "Referer": "https://gz.meituan.com/",
+        "Cookie": f'lt={mini_program_token}',
+        'User-agent': runUa()
+    }
+    res = requests.get(
+        f'https://gz.meituan.com/ptapi/getLoginedUserInfo?timestamp={getTimestamp()}',
+        headers=head, timeout=5)
+    js = json.loads(res.text)
+    if js.__contains__('error'):
+        return False
+    return True
 def getAccessToken(ck):
     head = {
         "Referer": "https://cube.meituan.com/cube/block/4d6b88d1167c/163282/index.html",

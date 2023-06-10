@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>logo.ico</file>
-        <file>ld.gif</file>
-    </qresource>
-</RCC>

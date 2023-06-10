@@ -10,13 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
+import resources.images
 class Ui_orderDetails(object):
     def setupUi(self, orderDetails):
         orderDetails.setObjectName("orderDetails")
         orderDetails.resize(628, 505)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":images/logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         orderDetails.setWindowIcon(icon)
         self.skuNameBox = QtWidgets.QLabel(orderDetails)
         self.skuNameBox.setGeometry(QtCore.QRect(10, 10, 91, 31))

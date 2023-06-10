@@ -1,13 +1,12 @@
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QCursor
-from PyQt5.QtWidgets import QMainWindow, QDialog
-from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtCore import QObject, Qt, QModelIndex
+from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 
-from OrderCustomWidget import OrderCustomWidget
-from OrderDetailsUi import OrderDetailsUi
-from order import Ui_orderMain
-from utils import *
+from ui.widget.OrderCustomWidget import OrderCustomWidget
+from controller.OrderDetailsUi import OrderDetailsUi
+from ui.order import Ui_orderMain
+from common.utils import *
 
 
 class OrderUi(QMainWindow, Ui_orderMain):

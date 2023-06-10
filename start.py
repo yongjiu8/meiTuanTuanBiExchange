@@ -1,23 +1,21 @@
-import json
-import sys
 import threading
 
 import pyperclip
-from PyQt5 import *
-from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtCore import QObject, Qt, QModelIndex, pyqtSignal
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import *
 
-from ItemCustomWidget import ItemCustomWidget
-from Loading import Loading
-from OrderUi import OrderUi
-from ProductCustomWidget import ProductCustomWidget
+from ui.widget.ItemCustomWidget import ItemCustomWidget
+from ui.Loading import Loading
+from controller.OrderUi import OrderUi
+from ui.widget.ProductCustomWidget import ProductCustomWidget
 
-from utils import *
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QCursor
 from qt_material import apply_stylesheet
 
-from main import Ui_MainWindow
+from ui.main import Ui_MainWindow
+from common.utils import *
+
 
 class TuanBi(QMainWindow, Ui_MainWindow):
     initCkSignal = pyqtSignal(list)
@@ -37,6 +35,9 @@ class TuanBi(QMainWindow, Ui_MainWindow):
         self.globelSearchAddressIndex = 0
         self.globelProductsDatas = []
         self.globelProductsIndex = 0
+        self.ckSortIsDesc = True
+        self.blanceCount = 0
+        self.cksCount = 0
 
         self.importckbtn.clicked.connect(self.openckTxt)
         self.ckListBox.clicked.connect(self.ckListClicked)
@@ -47,7 +48,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
         self.productsListBox.clicked.connect(self.productsListClicked)
         self.submitBtn.clicked.connect(self.submitBtnClicked)
         self.orderBtn.clicked.connect(self.orderBtnClicked)
-
+        self.ckSortBtn.clicked.connect(self.sortCkListDesc)
 
         self.initCkSignal.connect(self.initCkBox)
         self.initAddressSignal.connect(self.initAddressBox)
@@ -76,12 +77,21 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.cks = execCkDatas(fname)
             printf(self.cks)
             self.showLoading()
+            self.cksCount = 0
+            self.blanceCount = 0
             threading.Thread(target=getTuanBiBlance, args=(self.initCkSignal, self.cks)).start()
-            threading.Thread(target=getProducts, args=(self.initProductsSignal, self.cks[0])).start()
+
+            # 获取一个有效的ck加载商品
+            for ck in self.cks:
+                if checkCkStatus(ck):
+                    threading.Thread(target=getProducts, args=(self.initProductsSignal, ck)).start()
+                    break
         else:
             self.showErrorTips('文件选择有误')
 
     def initCkBox(self, datas):
+        self.cksCount = len(datas)
+        self.ckCountLabel.setText(str(self.cksCount))
         self.cksModel = QStandardItemModel(self)
         self.ckListBox.setModel(self.cksModel)
         for data in datas:
@@ -91,18 +101,53 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.cksModel.appendRow(item)
             index = self.cksModel.indexFromItem(item)
 
-
             widget = ItemCustomWidget(data['name'], data['blance'], data['ck'])
             item.setSizeHint(widget.sizeHint())
             self.ckListBox.setIndexWidget(index, widget)
+            self.blanceCount += int(data['blance'].replace("小团币", '').replace("个", ''))
+
         if self.cksModel.rowCount() > 0:
             seIndex = self.cksModel.index(0, 0)
             self.globelck = self.ckListBox.indexWidget(seIndex).children()[5].text()
             self.cksModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
             self.ckListBox.setCurrentIndex(seIndex)
             threading.Thread(target=getAddressList, args=(self.initAddressSignal, self.globelck)).start()
+            self.blanceCountLabel.setText(str(self.blanceCount))
 
+    def sortCkListDesc(self):
+        model = self.ckListBox.model()
 
+        if model:
+            datas = []
+            for i in range(model.rowCount()):
+                item = self.ckListBox.indexWidget(model.index(i, 0))
+                blance = item.children()[3].text()
+                datas.append({
+                    "item": item,
+                    "blance": int(blance.replace("小团币", '').replace("个", ''))
+                })
+
+            datas = sorted(datas, key=lambda it: it['blance'], reverse=self.ckSortIsDesc)
+
+            self.cksModel = QStandardItemModel(self)
+            self.ckListBox.setModel(self.cksModel)
+            for i in range(len(datas)):
+                widget = ItemCustomWidget(datas[i]['item'].children()[1].text(), datas[i]['item'].children()[3].text(), datas[i]['item'].children()[5].text())
+                item = QStandardItem()
+                item.setCheckable(True)
+                item.setCheckState(Qt.Unchecked)
+                self.cksModel.appendRow(item)
+                index = self.cksModel.indexFromItem(item)
+                item.setSizeHint(widget.sizeHint())
+                self.ckListBox.setIndexWidget(index, widget)
+
+            if self.cksModel.rowCount() > 0:
+                seIndex = self.cksModel.index(0, 0)
+                self.globelck = self.ckListBox.indexWidget(seIndex).children()[5].text()
+                self.cksModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
+                self.ckListBox.setCurrentIndex(seIndex)
+                threading.Thread(target=getAddressList, args=(self.initAddressSignal, self.globelck)).start()
+                self.ckSortIsDesc = not self.ckSortIsDesc
 
     def ckListClicked(self):
         index = self.ckListBox.currentIndex()
@@ -117,7 +162,6 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             else:
                 if item.checkState() == Qt.Checked:
                     item.setCheckState(Qt.Unchecked)
-
 
     def initAddressBox(self, datas):
         self.addressModel = QStandardItemModel(self)
@@ -232,8 +276,6 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.searchAddressModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
             self.searchAddressListBox.setCurrentIndex(seIndex)
 
-
-
     def searchAddressListClicked(self):
         index = self.searchAddressListBox.currentIndex()
         for i in range(self.searchAddressModel.rowCount()):
@@ -254,7 +296,8 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             return
 
         self.showLoading()
-        addAddress(self.globelck, self.globelSearchAddressDatas[self.globelSearchAddressIndex], name, phone, detailedAddress)
+        addAddress(self.globelck, self.globelSearchAddressDatas[self.globelSearchAddressIndex], name, phone,
+                   detailedAddress)
         threading.Thread(target=getAddressList, args=(self.initAddressSignal, self.globelck)).start()
 
     def initProductsBox(self, datas):
@@ -282,7 +325,7 @@ class TuanBi(QMainWindow, Ui_MainWindow):
                 index = self.productsBoxModel.indexFromItem(item)
                 widget = ProductCustomWidget(name, balance, b'')
                 item.setSizeHint(widget.sizeHint())
-                #异步加载图片
+                # 异步加载图片
                 data = {
                     "index": index,
                     "name": name,
@@ -299,13 +342,13 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.productsBoxModel.itemFromIndex(seIndex).setCheckState(Qt.Checked)
             self.productsListBox.setCurrentIndex(seIndex)
 
-
     def updateProductBoxImg(self, datas):
         index = datas['index']
         name = datas['name']
         balance = datas['balance']
         img = datas['img']
         self.productsListBox.setIndexWidget(index, ProductCustomWidget(name, balance, img))
+
     def productsListClicked(self):
         index = self.productsListBox.currentIndex()
         for i in range(self.productsBoxModel.rowCount()):
@@ -322,7 +365,8 @@ class TuanBi(QMainWindow, Ui_MainWindow):
             self.showErrorTips('请选择商品和地址后在提交兑换！')
             return
 
-        isOk, outNo = submitOrderV2(self.globelck, self.globelAddressDatas[self.globelAddressIndex], self.globelProductsDatas[self.globelProductsIndex])
+        isOk, outNo = submitOrderV2(self.globelck, self.globelAddressDatas[self.globelAddressIndex],
+                                    self.globelProductsDatas[self.globelProductsIndex])
         if isOk:
             self.showTips(f'恭喜兑换成功！订单号：{outNo}')
         else:
@@ -334,7 +378,6 @@ class TuanBi(QMainWindow, Ui_MainWindow):
         orderui.initOrder()
         orderui.setWindowModality(Qt.ApplicationModal)
         orderui.show()
-
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>美团小团币兑换-by忒星</string>
+   <string>美团小团币兑换-by忒星科技</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -39,7 +39,7 @@
       <x>10</x>
       <y>50</y>
       <width>581</width>
-      <height>301</height>
+      <height>291</height>
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -85,9 +85,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>360</y>
+      <y>350</y>
       <width>501</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -133,9 +133,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>410</y>
+      <y>400</y>
       <width>501</width>
-      <height>101</height>
+      <height>131</height>
      </rect>
     </property>
    </widget>
@@ -145,7 +145,7 @@
       <x>610</x>
       <y>300</y>
       <width>501</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -169,9 +169,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>520</y>
+      <y>540</y>
       <width>501</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -195,9 +195,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>570</y>
+      <y>590</y>
       <width>501</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -221,9 +221,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>620</y>
+      <y>640</y>
       <width>501</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -246,10 +246,10 @@
    <widget class="QPushButton" name="addAddressBtn">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>680</y>
+      <x>820</x>
+      <y>710</y>
       <width>101</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -260,9 +260,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
+      <y>390</y>
       <width>581</width>
-      <height>411</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -305,8 +305,82 @@
      </rect>
     </property>
     <property name="text">
-     <string>version：1.0.0 开发作者：忒星 声明：本开源项目仅供交流学习使用，任何违规使用将追究法律责任</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;version：1.1.2 开发作者：忒星 声明：本开源项目仅供交流学习使用，任何违规使用将追究法律责任&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
+   </widget>
+   <widget class="QPushButton" name="ckSortBtn">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>10</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>排序</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>350</y>
+      <width>581</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>账号数量：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ckCountLabel">
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>团币合计：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="blanceCountLabel">
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
